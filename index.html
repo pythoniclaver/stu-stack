@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ads Stacking and Pixels Stuffing</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      #adContainer {
+        max-width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1px;
+      }
+
+      #adContainer img,
+      #adContainer video,
+      #adContainer svg,
+      #adContainer canvas,
+      #adContainer animation {
+        width: 0.000001rem;
+        height: 0.000001rem;
+        overflow: hidden;
+        cursor: pointer;
+      }
+    </style>
+
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        const videos = document.querySelectorAll('#adContainer video');
+        videos.forEach((video) => {
+          video.muted = true;
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="adContainer">
+      <img src="img/ads.jpeg" alt="Ad Image 1" />
+
+      <img src="img/ads.jpeg" alt="Ad Image 2" />
+
+      <img src="img/ads.jpeg" alt="Ad Image 3" />
+
+      <video src="img/vid.mp4" alt="Ad Video 1" controls></video>
+
+      <svg width="100" height="100">
+        <circle cx="50" cy="50" r="40" fill="red" />
+      </svg>
+
+      <canvas id="adCanvas" width="200" height="200"></canvas>
+
+      <animation>
+        <p>This is an animated element</p>
+      </animation>
+    </div>
+  </body>
+</html>
