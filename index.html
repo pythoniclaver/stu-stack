@@ -9,7 +9,7 @@
 
     <style>
       #adContainer {
-        max-width: 100%;
+        max-width: 100vw;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -21,16 +21,24 @@
       #adContainer svg,
       #adContainer canvas,
       #adContainer animation {
-        width: 0.000001rem;
-        height: 0.000001rem;
+        width: 1rem;
+        height: 1rem;
         overflow: hidden;
         cursor: pointer;
       }
     </style>
 
+    <script
+      src="https://richinfo.co/richpartners/pops/js/richads-pu-ob.js"
+      data-pubid="881172"
+      data-siteid="329721"
+      async
+      data-cfasync="false"
+    ></script>
+
     <script>
-      window.addEventListener('DOMContentLoaded', () => {
-        const videos = document.querySelectorAll('#adContainer video');
+      window.addEventListener("DOMContentLoaded", () => {
+        const videos = document.querySelectorAll("#adContainer div video");
         videos.forEach((video) => {
           video.muted = true;
         });
@@ -38,24 +46,31 @@
     </script>
   </head>
   <body>
-    <div id="adContainer">
-      <img src="img/ads.jpeg" alt="Ad Image 1" />
+    <div id="adContainer"></div>
 
-      <img src="img/ads.jpeg" alt="Ad Image 2" />
+    <script>
+      // Fetch ads from richinfo.co
 
-      <img src="img/ads.jpeg" alt="Ad Image 3" />
+      RichInfo.getAds({
+        apiKey: "YOUR_API_KEY",
+        onSuccess: function (ads) {
+          // Get the ad container element
+          var container = document.getElementById("adContainer");
 
-      <video src="img/vid.mp4" alt="Ad Video 1" controls></video>
+          // Iterate through each ad
+          ads.forEach(function (ad) {
+            // Create a new div element for each ad
+            var adElement = document.createElement("div");
+            adElement.innerHTML = ad.html;
 
-      <svg width="100" height="100">
-        <circle cx="50" cy="50" r="40" fill="red" />
-      </svg>
-
-      <canvas id="adCanvas" width="200" height="200"></canvas>
-
-      <animation>
-        <p>This is an animated element</p>
-      </animation>
-    </div>
+            // Append the ad element to the container
+            container.appendChild(adElement);
+          });
+        },
+        onError: function (error) {
+          console.error("Error fetching ads:", error);
+        },
+      });
+    </script>
   </body>
 </html>
