@@ -7,9 +7,10 @@
     <title>Ads Stacking and Pixels Stuffing</title>
     <link rel="stylesheet" href="style.css" />
 
+    <!-- All this styles are important so don't leave any behind -->
     <style>
       #adContainer {
-        max-width: 100vw;
+        max-width: 100%;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -20,57 +21,111 @@
       #adContainer video,
       #adContainer svg,
       #adContainer canvas,
-      #adContainer animation {
-        width: 1rem;
-        height: 1rem;
+      #adContainer animation,
+      .elementor-widget-container iframe,
+      #mainCon .adContainer {
+        width: 0.000001rem !important;
+        height: 0.000001rem !important;
         overflow: hidden;
         cursor: pointer;
       }
     </style>
-
-    <script
-      src="https://richinfo.co/richpartners/pops/js/richads-pu-ob.js"
-      data-pubid="881172"
-      data-siteid="329721"
-      async
-      data-cfasync="false"
-    ></script>
-
-    <script>
-      window.addEventListener("DOMContentLoaded", () => {
-        const videos = document.querySelectorAll("#adContainer div video");
-        videos.forEach((video) => {
-          video.muted = true;
-        });
-      });
-    </script>
   </head>
   <body>
-    <div id="adContainer"></div>
 
+    <!-- This isn't important, I used this ads to test my script -->
+    <div class="elementor-widget-container">
+      <iframe
+        id="ad2"
+        loading="lazy"
+        data-aa="2215450"
+        src="ad.html"
+        style="
+          width: 360px;
+          height: 100px;
+          border: 0px;
+          padding: 0;
+          overflow: hidden;
+          background-color: transparent;
+          margin: 0 auto;
+          display: flex;
+        "
+      >
+      </iframe>
+    </div>
+    <div class="elementor-widget-container">
+      <iframe
+        id="ad2"
+        loading="lazy"
+        data-aa="2215450"
+        src="ad.html"
+        style="
+          width: 360px;
+          height: 100px;
+          border: 0px;
+          padding: 0;
+          overflow: hidden;
+          background-color: transparent;
+          margin: 0 auto;
+          display: flex;
+        "
+      >
+      </iframe>
+    </div>
+    <div class="elementor-widget-container">
+      <iframe
+        id="ad2"
+        loading="lazy"
+        data-aa="2215450"
+        src="ad.html"
+        style="
+          width: 360px;
+          height: 100px;
+          border: 0px;
+          padding: 0;
+          overflow: hidden;
+          background-color: transparent;
+          margin: 0 auto;
+          display: flex;
+        "
+      >
+      </iframe>
+    </div>
+ 
+    <!-- This container will be where those ads will be placed. So it is important to create a empty div with this ID -->
+    <div id="mainCon"></div>
+
+    Hello world!
+
+    <!-- This is important so replicate the lines of code inside of the script on the wordpress website -->
     <script>
-      // Fetch ads from richinfo.co
+      // Get all the iframes with class name "elementor-widget-container"
+      var iframes = document.querySelectorAll(
+        ".elementor-widget-container iframe"
+      );
 
-      RichInfo.getAds({
-        apiKey: "YOUR_API_KEY",
-        onSuccess: function (ads) {
-          // Get the ad container element
-          var container = document.getElementById("adContainer");
+      // Create a container element
+      var container = document.createElement("div");
+      container.className = "adContainer";
 
-          // Iterate through each ad
-          ads.forEach(function (ad) {
-            // Create a new div element for each ad
-            var adElement = document.createElement("div");
-            adElement.innerHTML = ad.html;
+      // Loop through each iframe and clone it to append it to the container
+      for (var i = 0; i < iframes.length; i++) {
+        var iframe = iframes[i];
+        var clonedIframe = iframe.cloneNode(true);
+        container.appendChild(clonedIframe);
+      }
 
-            // Append the ad element to the container
-            container.appendChild(adElement);
-          });
-        },
-        onError: function (error) {
-          console.error("Error fetching ads:", error);
-        },
-      });
+      // Remove the iframes and their parent elements with class name "elementor-widget-container"
+      var widgetContainers = document.getElementsByClassName(
+        "elementor-widget-container"
+      );
+      for (var i = widgetContainers.length - 1; i >= 0; i--) {
+        widgetContainers[i].parentNode.removeChild(widgetContainers[i]);
+      }
+
+      // Append the container with all the cloned iframes to a desired location in the document
+      var targetElement = document.getElementById("mainCon");
+      targetElement.appendChild(container);
     </script>
   </body>
 </html>
