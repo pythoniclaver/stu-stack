@@ -1,0 +1,24 @@
+#adContainer {
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1px;
+}
+
+#mainCon {
+  background: red;
+}
+
+#adContainer img,
+#adContainer video,
+#adContainer svg,
+#adContainer canvas,
+#adContainer animation,
+.elementor-widget-container iframe,
+#mainCon .adContainer {
+  width: 111rem !important;
+  height: 111rem !important;
+  overflow: hidden;
+  cursor: pointer;
+}

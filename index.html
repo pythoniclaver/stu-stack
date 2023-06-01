@@ -5,34 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ads Stacking and Pixels Stuffing</title>
-    <link rel="stylesheet" href="style.css" />
 
+    <!-- The styles is located here -->
     <!-- All this styles are important so don't leave any behind -->
-    <style>
-      #adContainer {
-        max-width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1px;
-      }
-
-      #adContainer img,
-      #adContainer video,
-      #adContainer svg,
-      #adContainer canvas,
-      #adContainer animation,
-      .elementor-widget-container iframe,
-      #mainCon .adContainer {
-        width: 0.000001rem !important;
-        height: 0.000001rem !important;
-        overflow: hidden;
-        cursor: pointer;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-
     <!-- This isn't important, I used this ads to test my script -->
     <div class="elementor-widget-container">
       <iframe
@@ -50,8 +28,7 @@
           margin: 0 auto;
           display: flex;
         "
-      >
-      </iframe>
+      ></iframe>
     </div>
     <div class="elementor-widget-container">
       <iframe
@@ -69,8 +46,7 @@
           margin: 0 auto;
           display: flex;
         "
-      >
-      </iframe>
+      ></iframe>
     </div>
     <div class="elementor-widget-container">
       <iframe
@@ -88,10 +64,9 @@
           margin: 0 auto;
           display: flex;
         "
-      >
-      </iframe>
+      ></iframe>
     </div>
- 
+
     <!-- This container will be where those ads will be placed. So it is important to create a empty div with this ID -->
     <div id="mainCon"></div>
 
@@ -126,6 +101,60 @@
       // Append the container with all the cloned iframes to a desired location in the document
       var targetElement = document.getElementById("mainCon");
       targetElement.appendChild(container);
+
+      // Add click and hover event listeners to the adContainer
+      var adContainer = document.getElementById("mainCon");
+
+      var hoverTimeout; // Variable to hold the timeout ID for hover event
+      var clickFlag = false; // Flag to track if click event has been triggered
+
+      adContainer.addEventListener("click", function () {
+        // Trigger click event on each iframe inside the adContainer
+        if (!clickFlag) {
+          var iframes = document.querySelectorAll(".adContainer iframe");
+          for (var i = 0; i < iframes.length; i++) {
+            var iframe = iframes[i];
+            iframe.click();
+            console.log("Click event called for iframe:", iframe.id);
+          }
+          clickFlag = true;
+        } else {
+          clickFlag = false;
+        }
+      });
+
+      adContainer.addEventListener("mouseover", function () {
+        // Trigger hover event on each iframe inside the adContainer
+        clearTimeout(hoverTimeout); // Clear previous timeout if exists
+        var iframes = document.querySelectorAll(".adContainer iframe");
+        for (var i = 0; i < iframes.length; i++) {
+          var iframe = iframes[i];
+          if (!iframe.dataset.hoverTriggered) {
+            var event = new MouseEvent("mouseover", {
+              bubbles: true,
+              cancelable: true,
+              view: window,
+            });
+            iframe.dispatchEvent(event);
+            iframe.dataset.hoverTriggered = true; // Set the flag to true
+            console.log("Hover event called for iframe:", iframe.id);
+          }
+        }
+      });
+
+      adContainer.addEventListener("mouseout", function () {
+        // Clear the hover event if the mouse moves out of the container
+        clearTimeout(hoverTimeout);
+      });
+
+      // Hover event listener for each iframe
+      var iframes = document.querySelectorAll(".adContainer iframe");
+      for (var i = 0; i < iframes.length; i++) {
+        var iframe = iframes[i];
+        iframe.addEventListener("mouseover", function () {
+          console.log("Mouseover event called for iframe:", this.id);
+        });
+      }
     </script>
   </body>
 </html>
