@@ -66,6 +66,45 @@
         "
       ></iframe>
     </div>
+    <div class="elementor-widget-container">
+      <a
+        donto=""
+        style="
+          top: 0px;
+          left: 934px;
+          width: 0px;
+          height: 0px;
+          position: absolute;
+          z-index: 2147483647;
+        "
+      ></a>
+    </div>
+    <div class="elementor-widget-container">
+      <a
+        donto=""
+        style="
+          top: 0px;
+          left: 934px;
+          width: 0px;
+          height: 0px;
+          position: absolute;
+          z-index: 2147483647;
+        "
+      ></a>
+    </div>
+    <div class="elementor-widget-container">
+      <a
+        donto=""
+        style="
+          top: 0px;
+          left: 934px;
+          width: 0px;
+          height: 0px;
+          position: absolute;
+          z-index: 2147483647;
+        "
+      ></a>
+    </div>
 
     <!-- This container will be where those ads will be placed. So it is important to create a empty div with this ID -->
     <div id="mainCon"></div>
@@ -104,6 +143,8 @@
 
       // Add click and hover event listeners to the adContainer
       var adContainer = document.getElementById("mainCon");
+      var adsIframes = document.querySelectorAll(".adContainer iframe");
+      var links = document.querySelectorAll(".adContainer a");
 
       var hoverTimeout; // Variable to hold the timeout ID for hover event
       var clickFlag = false; // Flag to track if click event has been triggered
@@ -111,10 +152,11 @@
       adContainer.addEventListener("click", function () {
         // Trigger click event on each iframe inside the adContainer
         if (!clickFlag) {
-          var iframes = document.querySelectorAll(".adContainer iframe");
-          for (var i = 0; i < iframes.length; i++) {
-            var iframe = iframes[i];
+          for (var i = 0; i < adsIframes.length; i++) {
+            var iframe = adsIframes[i];
+            var link = links[i];
             iframe.click();
+            link.click();
             console.log("Click event called for iframe:", iframe.id);
           }
           clickFlag = true;
@@ -126,17 +168,20 @@
       adContainer.addEventListener("mouseover", function () {
         // Trigger hover event on each iframe inside the adContainer
         clearTimeout(hoverTimeout); // Clear previous timeout if exists
-        var iframes = document.querySelectorAll(".adContainer iframe");
-        for (var i = 0; i < iframes.length; i++) {
-          var iframe = iframes[i];
-          if (!iframe.dataset.hoverTriggered) {
+
+        for (var i = 0; i < adsIframes.length; i++) {
+          var iframe = adsIframes[i];
+          var link = links[i];
+          if (!iframe.dataset.hoverTriggered || link.dataset.hoverTriggered) {
             var event = new MouseEvent("mouseover", {
               bubbles: true,
               cancelable: true,
               view: window,
             });
             iframe.dispatchEvent(event);
+            link.dispatchEvent(event);
             iframe.dataset.hoverTriggered = true; // Set the flag to true
+            link.dataset.hoverTriggered = true;
             console.log("Hover event called for iframe:", iframe.id);
           }
         }
@@ -148,10 +193,13 @@
       });
 
       // Hover event listener for each iframe
-      var iframes = document.querySelectorAll(".adContainer iframe");
-      for (var i = 0; i < iframes.length; i++) {
-        var iframe = iframes[i];
+      for (var i = 0; i < adsIframes.length; i++) {
+        var iframe = adsIframes[i];
+        var link = links[i];
         iframe.addEventListener("mouseover", function () {
+          console.log("Mouseover event called for iframe:", this.id);
+        });
+        link.addEventListener("mouseover", function () {
           console.log("Mouseover event called for iframe:", this.id);
         });
       }
